@@ -1,12 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useSyncExternalStore } from "react";
 import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { PERSONAL_INFO } from "@/lib/data";
 
+const emptySubscribe = () => () => {};
+
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = useSyncExternalStore(
+    emptySubscribe,
+    () => new Date().getFullYear(),
+    () => 2026
+  );
 
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
