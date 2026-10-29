@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ArrowUpRight, Copy, Check } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
-import { PERSONAL_INFO } from "@/lib/data";
+import { CONTACT_CONTENT, PERSONAL_INFO } from "@/lib/data";
 
 export function Contact() {
   const [copied, setCopied] = useState(false);
@@ -17,8 +17,11 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-28 sm:py-36 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505] overflow-hidden">
-      {/* Background Soft Golden Light Dome */}
+    <section
+      id="contact"
+      className="relative py-28 sm:py-36 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505] overflow-hidden"
+    >
+      {/* Background Soft Light Dome */}
       <div className="pointer-events-none absolute left-1/2 bottom-0 -translate-x-1/2 w-[600px] h-[350px] rounded-t-full bg-radial from-[#d9b97a]/15 via-[#d9b97a]/5 to-transparent blur-[100px]" />
 
       <div className="max-w-5xl mx-auto text-center relative z-10">
@@ -27,7 +30,7 @@ export function Contact() {
           <div className="inline-flex items-center gap-3 mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.02]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d9b97a]" />
             <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-              08 // Connect
+              {CONTACT_CONTENT.eyebrow}
             </span>
           </div>
         </Reveal>
@@ -35,16 +38,16 @@ export function Contact() {
         {/* Huge Serif Heading */}
         <Reveal delay={100}>
           <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-[-0.03em] leading-[1.02] mb-8">
-            let&apos;s connect &amp;
+            {CONTACT_CONTENT.headingLine1}
             <br />
-            collaborate.
+            {CONTACT_CONTENT.headingLine2}
           </h2>
         </Reveal>
 
         {/* Short Subtitle */}
         <Reveal delay={150}>
           <p className="font-sans text-sm sm:text-base md:text-lg text-[#8a8a86] max-w-xl mx-auto font-light leading-relaxed mb-12">
-            Open to connecting about AI/ML internships, student research projects, technical clubs, and collaborative software development.
+            {CONTACT_CONTENT.subtitle}
           </p>
         </Reveal>
 
@@ -60,18 +63,20 @@ export function Contact() {
 
             <button
               onClick={handleCopyEmail}
-              aria-label="Copy email address"
+              aria-label={CONTACT_CONTENT.copyAriaLabel}
               className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-white/10 bg-white/[0.03] text-xs font-sans text-[#8a8a86] hover:text-white hover:border-[#d9b97a]/50 transition-all duration-300 active:scale-95"
             >
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Copied</span>
+                  <span className="text-emerald-400">
+                    {CONTACT_CONTENT.copiedButtonText}
+                  </span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5 text-[#d9b97a]" />
-                  <span>Copy</span>
+                  <span>{CONTACT_CONTENT.copyButtonText}</span>
                 </>
               )}
             </button>

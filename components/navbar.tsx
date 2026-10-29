@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Logo } from "@/components/logo";
 import { MenuOverlay } from "@/components/menu-overlay";
-import { PERSONAL_INFO } from "@/lib/data";
+import { NAVIGATION_CONTENT } from "@/lib/data";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,17 +22,17 @@ export function Navbar() {
             {/* Left Half: Uppercase Wide-Letter-Spaced Label */}
             <div className="hidden sm:flex flex-col justify-center px-4 py-2.5 border-r border-white/20 text-left">
               <span className="text-[9px] font-bold tracking-[0.24em] uppercase text-white leading-tight">
-                {PERSONAL_INFO.badge}
+                {NAVIGATION_CONTENT.topBadge}
               </span>
               <span className="text-[8px] font-medium tracking-[0.2em] uppercase text-[#8a8a86] leading-tight mt-0.5">
-                B.Tech CSE • First Year
+                {NAVIGATION_CONTENT.topSubBadge}
               </span>
             </div>
 
             {/* Right Half: Hamburger Button (3 lines) */}
             <button
               onClick={() => setIsMenuOpen(true)}
-              aria-label="Open navigation menu"
+              aria-label={NAVIGATION_CONTENT.openMenuAriaLabel}
               aria-expanded={isMenuOpen}
               className="flex flex-col items-center justify-center w-12 h-12 text-white hover:text-[#d9b97a] hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
             >

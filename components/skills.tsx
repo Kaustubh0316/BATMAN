@@ -4,7 +4,7 @@ import React from "react";
 import { Code2, Brain, Sparkles, Compass } from "lucide-react";
 import { GlowCard } from "@/components/ui/spotlight-card";
 import { Reveal } from "@/components/ui/reveal";
-import { SKILL_CATEGORIES } from "@/lib/data";
+import { SKILLS_CONTENT, SKILL_CATEGORIES } from "@/lib/data";
 
 const iconMap = {
   Code2: Code2,
@@ -29,19 +29,19 @@ export function Skills() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-                  02 // Technical Skills
+                  {SKILLS_CONTENT.eyebrow}
                 </span>
                 <div className="h-[1px] w-12 bg-[#d9b97a]/30" />
               </div>
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white tracking-tight">
-                foundations & learning.
+                {SKILLS_CONTENT.heading}
               </h2>
             </div>
           </Reveal>
 
           <Reveal delay={100}>
             <p className="text-sm text-[#8a8a86] max-w-md font-light leading-relaxed">
-              An honest overview of the programming languages, AI concepts, research topics, and tools I am currently learning and exploring as a first-year engineering student.
+              {SKILLS_CONTENT.subtitle}
             </p>
           </Reveal>
         </div>

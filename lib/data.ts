@@ -1,94 +1,68 @@
 /**
- * Portfolio Data File for Kaustubh Chamankar
+ * ============================================================================
+ * WEBSITE CONTENT & TEXTS — SINGLE SOURCE OF TRUTH (`lib/data.ts`)
+ * ============================================================================
  *
- * Accuracy & Evidence Policy:
- * Every item in this file reflects verified student information or explicitly
- * labeled early-stage academic, research, and business-planning explorations.
- * Unverified metrics, dates, issuers, or completion claims are omitted from
- * public display and tracked in INTERNAL_VERIFICATION_CHECKLIST below.
+ * HOW TO EDIT YOUR WEBSITE TEXT:
+ * Every heading, subtitle, button label, bio paragraph, project description,
+ * skill, research topic, certificate, and link shown on the website lives here,
+ * organized in the exact top-to-bottom order of the page:
+ *
+ *   00. Site Metadata & Branding (Browser tab title, logo text, contact links)
+ *   01. Navigation Bar & Fullscreen Menu
+ *   02. Hero Section (Top screen)
+ *   03. Manifesto (Scroll-to-reveal quote)
+ *   04. Section 01 — About & Education
+ *   05. Section 02 — Technical Skills
+ *   06. Section 03 — Project Portfolio
+ *   07. Section 04 — Research & Development
+ *   08. Section 05 — Certifications
+ *   09. Section 06 — Leadership & Extracurriculars
+ *   10. Section 07 — Contact
+ *   11. Footer
+ *   12. Internal Verification Checklist (Private notes, not displayed on page)
+ *
+ * Edit the text inside quotation marks ("...") and save the file.
+ * ============================================================================
  */
 
-export type ProjectCategory =
-  | "AI & Research"
-  | "Web Development"
-  | "Entrepreneurship"
-  | "Academic Work"
-  | "Event Planning";
+import type {
+  Certificate,
+  ExperienceItem,
+  NavLink,
+  Project,
+  ProjectCategory,
+  ProjectStatus,
+  ResearchTopic,
+  SkillCategory,
+  SkillItem,
+  SocialLink,
+} from "@/lib/types";
 
-export type ProjectStatus =
-  | "Idea Explored"
-  | "Research & Planning"
-  | "Research Development"
-  | "Research & Prototype Planning"
-  | "Concept & Coursework Explored"
-  | "Business Planning Discussed"
-  | "Assignment Discussed"
-  | "Assignment Preparation Discussed"
-  | "Proposal Discussed"
-  | "Work in Progress";
+export type {
+  Certificate,
+  ExperienceItem,
+  NavLink,
+  Project,
+  ProjectCategory,
+  ProjectStatus,
+  ResearchTopic,
+  SkillCategory,
+  SkillItem,
+  SocialLink,
+};
 
-export interface Project {
-  id: string;
-  number: string;
-  title: string;
-  category: ProjectCategory;
-  domain: string;
-  status: ProjectStatus;
-  summary: string;
-  contribution: string;
-  objectives?: string[];
-  plannedDeliverables?: string[];
-  nextSteps?: string[];
-  accuracyNote?: string;
-  repositoryUrl?: string; // Only populated when a public repository is verified
-}
+/* ========================================================================== */
+/* 00. SITE METADATA, CORE PROFILE & VERIFIED LINKS                           */
+/* ========================================================================== */
 
-export interface SkillItem {
-  name: string;
-  stage: string;
-}
-
-export interface SkillCategory {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  iconName: "Code2" | "Brain" | "Sparkles" | "Compass";
-  items: SkillItem[];
-}
-
-export interface Certificate {
-  id: string;
-  title: string;
-  focusArea: string;
-  description: string;
-  issuer?: string; // Only shown if verified
-  date?: string; // Only shown if verified
-  url?: string; // Only linked if verified
-  internalStatus: "Details to be verified";
-}
-
-export interface ResearchTopic {
-  id: string;
-  title: string;
-  domain: string;
-  status: string;
-  researchQuestion: string;
-  literatureReviewed: string;
-  ownAnalysis: string;
-  proposedMethodology: string;
-  experimentsConducted: string;
-  verifiedFindings: string;
-  futureWork: string;
-}
-
-export interface ExperienceItem {
-  id: string;
-  role: string;
-  context: string;
-  category: "School Leadership" | "Athletics & House Participation" | "Event Coordination" | "Volunteering & Community";
-  description: string;
-}
+export const SITE_METADATA = {
+  browserTitle: "Kaustubh Chamankar | Computer Science Engineering Student",
+  browserDescription:
+    "First-year B.Tech Computer Science Engineering student at ITM Skills University exploring AI/ML, Generative AI, research and development, web development, and entrepreneurship.",
+  logoText: "Kaustubh",
+  logoAriaLabel: "Kaustubh Chamankar - Back to top",
+};
 
 export const PERSONAL_INFO = {
   name: "Kaustubh Chamankar",
@@ -99,64 +73,9 @@ export const PERSONAL_INFO = {
   degree: "B.Tech in Computer Science Engineering",
   currentStage: "First Year",
   expectedGraduation: "2030 (subject to confirmation)",
-  learningAreas: [
-    "Python programming",
-    "Web Fundamentals (HTML, CSS, JavaScript)",
-  ],
   email: "btech2026.kaustubhc@isu.ac.in",
   github: "https://github.com/kaustubhchamankar16-pixel",
   linkedin: "https://www.linkedin.com/in/kaustubh-c-14b1443b9/",
-  badge: "EXPLORING AI, RESEARCH & CODE",
-  heroHeadline: "Exploring AI, Research, and the Possibilities of Code.",
-  heroEyebrow: "Computer Science Engineering Student",
-  heroSubtitle:
-    "I’m a Computer Science Engineering student at ITM Skills University, building my technical foundations while exploring Artificial Intelligence, Generative AI, research, and software development through practical learning and project work.",
-  manifestoText:
-    "Understanding how ideas become real, usable things — building foundations in Computer Science while exploring Artificial Intelligence, structured research, and practical problem-solving.",
-  manifestoHighlights: [
-    "ideas",
-    "usable",
-    "foundations",
-    "Artificial",
-    "Intelligence",
-    "research",
-    "problem-solving",
-  ],
-  bio: [
-    "I am curious about technology and interested in understanding how ideas can become real, usable things. Coding has become an interesting way for me to explore creativity and build something from scratch. I enjoy the idea of having control over what I create and learning how different pieces work together.",
-    "As a first-year B.Tech Computer Science Engineering student at ITM Skills University, I am open to exploring new subjects and technologies. I do not want to limit myself to one specialization before I have had enough experience to understand where I perform best.",
-    "I want to learn through practical work, research, experimentation, and solving real problems — whether that means investigating how generative AI can be made more reliable, building web interfaces, or studying how technology applies to agriculture and campus operations.",
-  ],
-  currentInterests: [
-    "Artificial Intelligence & Machine Learning",
-    "Generative AI",
-    "AI Reliability, RAG & AI Guardrails",
-    "Research & Development",
-    "Python Programming",
-    "Web Development",
-    "Entrepreneurship & Tech Problem-Solving",
-    "AgriTech & Sustainability",
-  ],
-  careerStatement:
-    "I am building a foundation in Computer Science while exploring AI/ML, Generative AI, research, and practical software development. I am particularly interested in understanding real-world problems, investigating existing solutions, and developing technology-based approaches that can be tested and evaluated. My entrepreneurial interests also lead me to explore applications of technology in areas such as agriculture, sustainability, and campus operations.",
-  learningGoals: [
-    "Strengthen Python fundamentals",
-    "Develop web-development skills",
-    "Improve Git and GitHub workflows",
-    "Learn data analysis and visualization",
-    "Study machine-learning fundamentals",
-    "Explore Generative AI and RAG",
-    "Improve research methodology and literature reviews",
-    "Learn experimental design, testing, and evaluation",
-    "Improve technical communication and documentation",
-  ],
-  opportunitiesOfInterest: [
-    "AI/ML internships",
-    "Student research projects",
-    "Research and development opportunities",
-    "Technical clubs and innovation initiatives",
-    "Collaborative software-development projects",
-  ],
   socials: [
     {
       name: "GitHub",
@@ -168,7 +87,127 @@ export const PERSONAL_INFO = {
       url: "https://www.linkedin.com/in/kaustubh-c-14b1443b9/",
       handle: "Kaustubh Chamankar",
     },
+  ] satisfies SocialLink[],
+};
+
+/* ========================================================================== */
+/* 01. NAVIGATION BAR & FULLSCREEN MENU                                       */
+/* ========================================================================== */
+
+export const NAVIGATION_CONTENT = {
+  topBadge: "EXPLORING AI, RESEARCH & CODE",
+  topSubBadge: "B.Tech CSE • First Year",
+  openMenuAriaLabel: "Open navigation menu",
+  closeButtonText: "Close",
+  closeMenuAriaLabel: "Close navigation menu",
+  directInquiriesLabel: "Direct Inquiries",
+};
+
+export const NAV_LINKS: NavLink[] = [
+  { name: "About & Education", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Research", href: "#research" },
+  { name: "Certificates", href: "#certificates" },
+  { name: "Experience", href: "#beyond" },
+  { name: "Contact", href: "#contact" },
+];
+
+/* ========================================================================== */
+/* 02. HERO SECTION (TOP OF PAGE)                                             */
+/* ========================================================================== */
+
+export const HERO_CONTENT = {
+  eyebrow: `${PERSONAL_INFO.name} • ${PERSONAL_INFO.title}`,
+  headlinePrefix: "Exploring AI, Research, and the",
+  headlineHighlight: "Possibilities of Code.",
+  subtitle:
+    "I’m a Computer Science Engineering student at ITM Skills University, building my technical foundations while exploring Artificial Intelligence, Generative AI, research, and software development through practical learning and project work.",
+  primaryButtonText: "Explore My Projects",
+  primaryButtonHref: "#projects",
+  secondaryButtonText: "Connect With Me",
+  secondaryButtonHref: "#contact",
+  githubLabel: "GitHub",
+  linkedinLabel: "LinkedIn",
+  scrollCueText: "Scroll to explore",
+  cornerCardLine1: "First-Year B.Tech CSE",
+  cornerCardLine2: PERSONAL_INFO.institution,
+};
+
+/* ========================================================================== */
+/* 03. MANIFESTO (SCROLL-TO-REVEAL SECTION)                                   */
+/* ========================================================================== */
+
+export const MANIFESTO_CONTENT = {
+  eyebrow: "Approach & Perspective",
+  text: "Understanding how ideas become real, usable things — building foundations in Computer Science while exploring Artificial Intelligence, structured research, and practical problem-solving.",
+  highlightWords: [
+    "ideas",
+    "usable",
+    "foundations",
+    "Artificial",
+    "Intelligence",
+    "research",
+    "problem-solving",
   ],
+  scrollHint: "Scroll to reveal",
+};
+
+/* ========================================================================== */
+/* 04. SECTION 01 — ABOUT ME & EDUCATION                                      */
+/* ========================================================================== */
+
+export const ABOUT_CONTENT = {
+  eyebrow: "01 // About & Education",
+  heading: "curious about how ideas become real, usable things.",
+  photoAlt: PERSONAL_INFO.name,
+  fallbackSubtitle: "ITM Skills University • B.Tech CSE",
+  photoCaptionLeft: PERSONAL_INFO.institution,
+  photoCaptionRight: PERSONAL_INFO.currentStage,
+  bioParagraphs: [
+    "I am curious about technology and interested in understanding how ideas can become real, usable things. Coding has become an interesting way for me to explore creativity and build something from scratch. I enjoy the idea of having control over what I create and learning how different pieces work together.",
+    "As a first-year B.Tech Computer Science Engineering student at ITM Skills University, I am open to exploring new subjects and technologies. I do not want to limit myself to one specialization before I have had enough experience to understand where I perform best.",
+    "I want to learn through practical work, research, experimentation, and solving real problems — whether that means investigating how generative AI can be made more reliable, building web interfaces, or studying how technology applies to agriculture and campus operations.",
+  ],
+  educationCard: {
+    eyebrow: "Education",
+    degree: PERSONAL_INFO.degree,
+    institutionLabel: "Institution",
+    institutionValue: PERSONAL_INFO.institution,
+    stageLabel: "Current Stage",
+    stageValue: PERSONAL_INFO.currentStage,
+    graduationLabel: "Expected Graduation",
+    graduationValue: PERSONAL_INFO.expectedGraduation,
+    learningAreasLabel: "Relevant Learning Areas",
+    learningAreas: [
+      "Python programming",
+      "Web Fundamentals (HTML, CSS, JavaScript)",
+    ],
+  },
+  interestsCard: {
+    heading: "Current Areas of Interest",
+    items: [
+      "Artificial Intelligence & Machine Learning",
+      "Generative AI",
+      "AI Reliability, RAG & AI Guardrails",
+      "Research & Development",
+      "Python Programming",
+      "Web Development",
+      "Entrepreneurship & Tech Problem-Solving",
+      "AgriTech & Sustainability",
+    ],
+  },
+};
+
+/* ========================================================================== */
+/* 05. SECTION 02 — TECHNICAL SKILLS                                          */
+/* ========================================================================== */
+
+export const SKILLS_CONTENT = {
+  eyebrow: "02 // Technical Skills",
+  heading: "foundations & learning.",
+  subtitle:
+    "An honest overview of the programming languages, AI concepts, research topics, and tools I am currently learning and exploring as a first-year engineering student.",
 };
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
@@ -234,6 +273,34 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     ],
   },
 ];
+
+/* ========================================================================== */
+/* 06. SECTION 03 — PROJECT PORTFOLIO                                         */
+/* ========================================================================== */
+
+export const PROJECTS_CONTENT = {
+  eyebrow: "03 // Project Portfolio",
+  heading: "projects & explorations.",
+  subtitle:
+    "Research inquiries, coursework assignments, web development, and early-stage venture concepts — each labeled with its current stage of progress.",
+  allFilterLabel: "All",
+  filterCategories: [
+    "AI & Research",
+    "Web Development",
+    "Entrepreneurship",
+    "Academic Work",
+    "Event Planning",
+  ] satisfies ProjectCategory[],
+  labels: {
+    viewDetails: "View Details",
+    hideDetails: "Hide Details",
+    contributionPrefix: "My Contribution So Far:",
+    objectivesHeading: "Objectives & Scope",
+    deliverablesHeading: "Planned Deliverables",
+    nextStepsHeading: "Potential Next Steps",
+    verificationNoteHeading: "Current Stage & Verification Note",
+  },
+};
 
 export const PROJECTS: Project[] = [
   {
@@ -369,14 +436,14 @@ export const PROJECTS: Project[] = [
     summary:
       "This website — built to present my academic background, learning stages, research topics, coursework projects, and career direction accurately.",
     contribution:
-      "Planned the portfolio structure, organized verified profile and project documentation, and iterated on the local Next.js interface.",
+      "Planned the portfolio structure, organized verified profile and project documentation, and iterated on the Next.js interface.",
     objectives: [
       "Present accurate, evidence-based student profile and project records.",
       "Organize research interests, skills in progress, and coursework clearly.",
-      "Prepare the local Next.js codebase for public deployment.",
+      "Maintain a centralized, easy-to-edit content file for ongoing updates.",
     ],
     accuracyNote:
-      "Implemented locally using Next.js, TypeScript, and Tailwind CSS. Public deployment to a live production URL is pending.",
+      "Implemented using Next.js, TypeScript, and Tailwind CSS.",
   },
   {
     id: "college-information-webpage",
@@ -462,6 +529,27 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+/* ========================================================================== */
+/* 07. SECTION 04 — RESEARCH & DEVELOPMENT INTERESTS                          */
+/* ========================================================================== */
+
+export const RESEARCH_CONTENT = {
+  eyebrow: "04 // Research & Development",
+  heading: "research interests.",
+  subtitle:
+    "Early-stage research questions and literature explorations — presented separately from completed research outputs or published papers.",
+  focusBoxHeading: "Focus Areas Under Exploration",
+  fieldLabels: {
+    researchQuestion: "Research Question",
+    literatureReviewed: "Published Literature Reviewed",
+    ownAnalysis: "My Own Analysis",
+    proposedMethodology: "Proposed Methodology",
+    experimentsConducted: "Experiments Conducted",
+    verifiedFindings: "Verified Findings",
+    futureWork: "Future Work",
+  },
+};
+
 export const RESEARCH_INTERESTS: string[] = [
   "RAG and hallucination reduction in generative AI",
   "AI-generated response verification and policy compliance",
@@ -532,6 +620,17 @@ export const RESEARCH_TOPICS: ResearchTopic[] = [
   },
 ];
 
+/* ========================================================================== */
+/* 08. SECTION 05 — CERTIFICATIONS                                            */
+/* ========================================================================== */
+
+export const CERTIFICATES_CONTENT = {
+  eyebrow: "05 // Coursework & Credentials",
+  heading: "certifications.",
+  subtitle:
+    "Introductory coursework completed in generative AI fundamentals, prompt design, and foundational German language study.",
+};
+
 export const CERTIFICATES: Certificate[] = [
   {
     id: "german-for-beginners",
@@ -566,6 +665,17 @@ export const CERTIFICATES: Certificate[] = [
     internalStatus: "Details to be verified",
   },
 ];
+
+/* ========================================================================== */
+/* 09. SECTION 06 — LEADERSHIP & EXTRACURRICULAR EXPERIENCE                   */
+/* ========================================================================== */
+
+export const EXPERIENCE_CONTENT = {
+  eyebrow: "06 // Leadership & Extracurriculars",
+  heading: "leadership & participation.",
+  subtitle:
+    "School leadership roles, athletic participation, event coordination, and community volunteering.",
+};
 
 export const LEADERSHIP_EXPERIENCE: ExperienceItem[] = [
   {
@@ -610,20 +720,36 @@ export const LEADERSHIP_EXPERIENCE: ExperienceItem[] = [
   },
 ];
 
-export const NAV_LINKS = [
-  { name: "About & Education", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Research", href: "#research" },
-  { name: "Certificates", href: "#certificates" },
-  { name: "Experience & Goals", href: "#beyond" },
-  { name: "Contact", href: "#contact" },
-];
+/* ========================================================================== */
+/* 10. SECTION 07 — CONTACT                                                   */
+/* ========================================================================== */
 
-/**
- * Private / Internal Content Verification Checklist for Future Updates
- * (Kept in codebase per Section 8 & Section 14 accuracy guidelines; not rendered as unfinished UI)
- */
+export const CONTACT_CONTENT = {
+  eyebrow: "07 // Connect",
+  headingLine1: "let's connect &",
+  headingLine2: "collaborate.",
+  subtitle:
+    "Open to connecting about AI/ML internships, student research projects, technical clubs, and collaborative software development.",
+  copyButtonText: "Copy",
+  copiedButtonText: "Copied",
+  copyAriaLabel: "Copy email address",
+};
+
+/* ========================================================================== */
+/* 11. FOOTER                                                                 */
+/* ========================================================================== */
+
+export const FOOTER_CONTENT = {
+  roleLabel: PERSONAL_INFO.role,
+  copyrightTagline: "Built with curiosity & precision.",
+  backToTopText: "Top",
+  backToTopAriaLabel: "Back to top of page",
+};
+
+/* ========================================================================== */
+/* 12. PRIVATE / INTERNAL VERIFICATION CHECKLIST (NOT DISPLAYED ON WEBSITE)   */
+/* ========================================================================== */
+
 export const INTERNAL_VERIFICATION_CHECKLIST = {
   education: [
     "Confirm exact B.Tech graduation year (currently listed as 2030, subject to confirmation).",

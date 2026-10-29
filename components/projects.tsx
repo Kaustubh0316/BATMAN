@@ -3,25 +3,24 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
-import { PROJECTS, Project, ProjectCategory } from "@/lib/data";
-
-const CATEGORIES: ("All" | ProjectCategory)[] = [
-  "All",
-  "AI & Research",
-  "Web Development",
-  "Entrepreneurship",
-  "Academic Work",
-  "Event Planning",
-];
+import {
+  PROJECTS,
+  PROJECTS_CONTENT,
+  Project,
+  ProjectCategory,
+} from "@/lib/data";
 
 export function Projects() {
-  const [activeCategory, setActiveCategory] = useState<"All" | ProjectCategory>("All");
+  const allLabel = PROJECTS_CONTENT.allFilterLabel;
+  const categories = [allLabel, ...PROJECTS_CONTENT.filterCategories];
+  const [activeCategory, setActiveCategory] = useState<string>(allLabel);
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
+  const { labels } = PROJECTS_CONTENT;
 
   const filteredProjects =
-    activeCategory === "All"
+    activeCategory === allLabel
       ? PROJECTS
-      : PROJECTS.filter((p) => p.category === activeCategory);
+      : PROJECTS.filter((p) => p.category === (activeCategory as ProjectCategory));
 
   const toggleDetails = (id: string) => {
     setExpandedIds((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -42,19 +41,19 @@ export function Projects() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-                  03 // Project Portfolio
+                  {PROJECTS_CONTENT.eyebrow}
                 </span>
                 <div className="h-[1px] w-12 bg-[#d9b97a]/30" />
               </div>
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white tracking-tight">
-                projects & explorations.
+                {PROJECTS_CONTENT.heading}
               </h2>
             </div>
           </Reveal>
 
           <Reveal delay={100}>
             <p className="text-sm text-[#8a8a86] max-w-md font-light leading-relaxed">
-              Research inquiries, coursework assignments, web development, and early-stage venture concepts — each labeled with its current stage of progress.
+              {PROJECTS_CONTENT.subtitle}
             </p>
           </Reveal>
         </div>
@@ -62,7 +61,7 @@ export function Projects() {
         {/* Category Filter Tabs */}
         <Reveal delay={120}>
           <div className="flex flex-wrap items-center gap-2 mb-12">
-            {CATEGORIES.map((category) => {
+            {categories.map((category) => {
               const isActive = activeCategory === category;
               return (
                 <button
@@ -121,7 +120,9 @@ export function Projects() {
                         aria-expanded={isExpanded}
                         className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/[0.03] text-[11px] uppercase tracking-[0.18em] text-[#8a8a86] hover:text-white hover:border-white/35 transition-colors"
                       >
-                        <span>{isExpanded ? "Hide Details" : "View Details"}</span>
+                        <span>
+                          {isExpanded ? labels.hideDetails : labels.viewDetails}
+                        </span>
                         {isExpanded ? (
                           <ChevronUp className="w-3.5 h-3.5" />
                         ) : (
@@ -138,7 +139,7 @@ export function Projects() {
                     </p>
                     <p className="text-xs sm:text-sm text-[#8a8a86] font-light leading-relaxed">
                       <strong className="font-medium text-[#f4f4f2] uppercase tracking-[0.14em] text-[11px] mr-2">
-                        My Contribution So Far:
+                        {labels.contributionPrefix}
                       </strong>
                       {project.contribution}
                     </p>
@@ -149,7 +150,7 @@ export function Projects() {
                         {project.objectives && project.objectives.length > 0 && (
                           <div>
                             <h4 className="text-[10px] uppercase tracking-[0.24em] text-[#d9b97a] font-medium mb-2.5">
-                              Objectives & Scope
+                              {labels.objectivesHeading}
                             </h4>
                             <ul className="space-y-1.5 text-[#8a8a86] list-disc list-inside">
                               {project.objectives.map((item) => (
@@ -165,7 +166,7 @@ export function Projects() {
                           project.plannedDeliverables.length > 0 && (
                             <div>
                               <h4 className="text-[10px] uppercase tracking-[0.24em] text-[#d9b97a] font-medium mb-2.5">
-                                Planned Deliverables
+                                {labels.deliverablesHeading}
                               </h4>
                               <ul className="space-y-1.5 text-[#8a8a86] list-disc list-inside">
                                 {project.plannedDeliverables.map((item) => (
@@ -180,7 +181,7 @@ export function Projects() {
                         {project.nextSteps && project.nextSteps.length > 0 && (
                           <div>
                             <h4 className="text-[10px] uppercase tracking-[0.24em] text-[#d9b97a] font-medium mb-2.5">
-                              Potential Next Steps
+                              {labels.nextStepsHeading}
                             </h4>
                             <ul className="space-y-1.5 text-[#8a8a86] list-disc list-inside">
                               {project.nextSteps.map((item) => (
@@ -195,7 +196,7 @@ export function Projects() {
                         {project.accuracyNote && (
                           <div className="md:col-span-2 p-4 rounded-xl border border-white/[0.08] bg-white/[0.02]">
                             <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1">
-                              Current Stage & Verification Note
+                              {labels.verificationNoteHeading}
                             </span>
                             <p className="text-xs text-[#8a8a86] leading-relaxed">
                               {project.accuracyNote}

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { SITE_METADATA } from "@/lib/data";
 
 interface LogoProps {
   className?: string;
@@ -12,7 +13,7 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
   return (
     <Link
       href="#top"
-      aria-label="Kaustubh Chamankar - Back to top"
+      aria-label={SITE_METADATA.logoAriaLabel}
       className={`group inline-flex flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#c9ced6] rounded-sm transition-transform duration-300 hover:scale-[1.02] ${className}`}
     >
       {/* Monolithic Geometric Shield Monogram */}
@@ -64,7 +65,7 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
 
       {/* Underline Brand Name in Bold Wide-Letter-Spaced Caps */}
       <span className="font-sans text-[10px] font-bold uppercase tracking-[0.34em] text-white transition-colors duration-300 group-hover:text-[#c9ced6]">
-        Kaustubh
+        {SITE_METADATA.logoText}
       </span>
     </Link>
   );

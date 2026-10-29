@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Serif_Display, Outfit } from "next/font/google";
+import { SITE_METADATA } from "@/lib/data";
 import "./globals.css";
 
 const dmSerif = DM_Serif_Display({
@@ -22,9 +23,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Kaustubh Chamankar | Computer Science Engineering Student",
-  description:
-    "First-year B.Tech Computer Science Engineering student at ITM Skills University exploring AI/ML, Generative AI, research and development, web development, and entrepreneurship.",
+  title: SITE_METADATA.browserTitle,
+  description: SITE_METADATA.browserDescription,
 };
 
 export default function RootLayout({

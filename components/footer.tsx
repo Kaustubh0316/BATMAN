@@ -3,7 +3,7 @@
 import React, { useSyncExternalStore } from "react";
 import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { PERSONAL_INFO } from "@/lib/data";
+import { FOOTER_CONTENT, PERSONAL_INFO } from "@/lib/data";
 
 const emptySubscribe = () => () => {};
 
@@ -28,22 +28,24 @@ export function Footer() {
           <Logo size="sm" />
           <div className="h-6 w-[1px] bg-white/10 hidden sm:block" />
           <span className="text-[11px] uppercase tracking-[0.2em] text-[#8a8a86] hidden sm:block">
-            {PERSONAL_INFO.role}
+            {FOOTER_CONTENT.roleLabel}
           </span>
         </div>
 
         {/* Center: Copyright with Auto-Updating Year */}
         <div className="text-center font-sans tracking-wide text-[11px]">
-          <p>© {currentYear} {PERSONAL_INFO.name}. Built with curiosity & precision.</p>
+          <p>
+            © {currentYear} {PERSONAL_INFO.name}. {FOOTER_CONTENT.copyrightTagline}
+          </p>
         </div>
 
         {/* Right: Back to Top Button */}
         <button
           onClick={scrollToTop}
-          aria-label="Back to top of page"
+          aria-label={FOOTER_CONTENT.backToTopAriaLabel}
           className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[#8a8a86] hover:text-[#d9b97a] transition-colors"
         >
-          <span>Top</span>
+          <span>{FOOTER_CONTENT.backToTopText}</span>
           <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 group-hover:border-[#d9b97a] group-hover:bg-[#d9b97a]/10">
             <ArrowUp className="w-3 h-3 text-[#d9b97a] transition-transform duration-300 group-hover:-translate-y-0.5" />
           </div>

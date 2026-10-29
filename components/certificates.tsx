@@ -3,7 +3,7 @@
 import React from "react";
 import { Award } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
-import { CERTIFICATES } from "@/lib/data";
+import { CERTIFICATES, CERTIFICATES_CONTENT } from "@/lib/data";
 
 export function Certificates() {
   return (
@@ -21,19 +21,19 @@ export function Certificates() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-                  05 // Coursework & Credentials
+                  {CERTIFICATES_CONTENT.eyebrow}
                 </span>
                 <div className="h-[1px] w-12 bg-[#d9b97a]/30" />
               </div>
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white tracking-tight">
-                certifications.
+                {CERTIFICATES_CONTENT.heading}
               </h2>
             </div>
           </Reveal>
 
           <Reveal delay={100}>
             <p className="text-sm text-[#8a8a86] max-w-md font-light leading-relaxed">
-              Introductory coursework completed in generative AI fundamentals, prompt design, and foundational German language study.
+              {CERTIFICATES_CONTENT.subtitle}
             </p>
           </Reveal>
         </div>

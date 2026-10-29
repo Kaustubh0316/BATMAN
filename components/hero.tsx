@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 import { CredCorridor } from "@/components/cred-corridor";
-import { PERSONAL_INFO } from "@/lib/data";
+import { HERO_CONTENT, PERSONAL_INFO } from "@/lib/data";
 
 export function Hero() {
   return (
@@ -25,7 +25,7 @@ export function Hero() {
         <div className="inline-flex items-center justify-center gap-2.5 mb-6 px-4 py-1.5 rounded-none border border-white/15 bg-black/50 backdrop-blur-md">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d9b97a]" />
           <TextShimmer
-            text={`${PERSONAL_INFO.name} • ${PERSONAL_INFO.title}`}
+            text={HERO_CONTENT.eyebrow}
             as="span"
             duration={3}
             baseColor="#8a8a86"
@@ -36,32 +36,32 @@ export function Hero() {
 
         {/* Headline */}
         <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[82px] text-white tracking-[-0.03em] leading-[1.02] max-w-4xl mx-auto select-none">
-          Exploring AI, Research, and the{" "}
+          {HERO_CONTENT.headlinePrefix}{" "}
           <span className="text-white drop-shadow-[0_4px_30px_rgba(255,255,255,0.25)]">
-            Possibilities of Code.
+            {HERO_CONTENT.headlineHighlight}
           </span>
         </h1>
 
         {/* Concise Introduction */}
         <p className="mt-6 sm:mt-8 font-sans font-normal text-white/75 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          {PERSONAL_INFO.heroSubtitle}
+          {HERO_CONTENT.subtitle}
         </p>
 
         {/* Primary & Secondary Action Buttons */}
         <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
           <Link
-            href="#projects"
+            href={HERO_CONTENT.primaryButtonHref}
             className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-white text-[#07080a] text-xs font-sans font-semibold uppercase tracking-[0.22em] transition-all duration-300 hover:bg-[#e6e8ec] active:scale-[0.99]"
           >
-            <span>Explore My Projects</span>
+            <span>{HERO_CONTENT.primaryButtonText}</span>
             <ArrowUpRight className="w-4 h-4" />
           </Link>
 
           <Link
-            href="#contact"
+            href={HERO_CONTENT.secondaryButtonHref}
             className="inline-flex items-center gap-2.5 px-6 py-3.5 border border-white/25 bg-black/50 backdrop-blur-md text-white text-xs font-sans font-medium uppercase tracking-[0.22em] transition-all duration-300 hover:border-white/60 hover:bg-white/[0.06] active:scale-[0.99]"
           >
-            <span>Connect With Me</span>
+            <span>{HERO_CONTENT.secondaryButtonText}</span>
           </Link>
         </div>
 
@@ -73,7 +73,7 @@ export function Hero() {
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-1.5 px-3 py-1 border border-white/10 bg-black/40 backdrop-blur-sm hover:border-white/30 hover:text-white transition-colors"
           >
-            <span>GitHub</span>
+            <span>{HERO_CONTENT.githubLabel}</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-[#d9b97a] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 
@@ -85,13 +85,13 @@ export function Hero() {
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-1.5 px-3 py-1 border border-white/10 bg-black/40 backdrop-blur-sm hover:border-white/30 hover:text-white transition-colors"
           >
-            <span>LinkedIn</span>
+            <span>{HERO_CONTENT.linkedinLabel}</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-[#d9b97a] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </div>
       </div>
 
-      {/* Bottom Bar: Scroll Indicator + Quick Contact Box */}
+      {/* Bottom Bar: Scroll Indicator + Quick Profile Box */}
       <div className="relative z-30 max-w-7xl mx-auto w-full flex items-end justify-between pt-6 border-t border-white/[0.08]">
         {/* Bottom-Left: Subtle Scroll Cue */}
         <a
@@ -99,7 +99,7 @@ export function Hero() {
           className="group flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.24em] text-[#8a8a86] hover:text-white transition-colors pb-2"
         >
           <ChevronDown className="w-3.5 h-3.5 text-[#d9b97a] animate-bounce" />
-          <span>Scroll to explore</span>
+          <span>{HERO_CONTENT.scrollCueText}</span>
         </a>
 
         {/* Bottom-Right: Rectangular Box */}
@@ -109,16 +109,16 @@ export function Hero() {
         >
           <div className="w-10 h-10 p-1 bg-white rounded-none flex items-center justify-center shrink-0">
             <span className="font-serif text-sm font-bold text-black tracking-tight">
-              KC
+              {PERSONAL_INFO.initials}
             </span>
           </div>
 
           <div className="flex flex-col text-left pr-2">
             <span className="text-[11px] font-sans font-normal text-white group-hover:text-[#d9b97a] transition-colors leading-tight">
-              First-Year B.Tech CSE
+              {HERO_CONTENT.cornerCardLine1}
             </span>
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8a8a86] group-hover:text-white transition-colors leading-tight mt-0.5 flex items-center gap-1">
-              ITM Skills University
+              {HERO_CONTENT.cornerCardLine2}
               <ArrowUpRight className="w-3 h-3 text-[#d9b97a] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </span>
           </div>

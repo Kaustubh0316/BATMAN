@@ -3,9 +3,15 @@
 import React from "react";
 import { FlaskConical } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
-import { RESEARCH_INTERESTS, RESEARCH_TOPICS } from "@/lib/data";
+import {
+  RESEARCH_CONTENT,
+  RESEARCH_INTERESTS,
+  RESEARCH_TOPICS,
+} from "@/lib/data";
 
 export function Research() {
+  const { fieldLabels } = RESEARCH_CONTENT;
+
   return (
     <section
       id="research"
@@ -21,19 +27,19 @@ export function Research() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-                  04 // Research & Development
+                  {RESEARCH_CONTENT.eyebrow}
                 </span>
                 <div className="h-[1px] w-12 bg-[#d9b97a]/30" />
               </div>
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white tracking-tight">
-                research interests.
+                {RESEARCH_CONTENT.heading}
               </h2>
             </div>
           </Reveal>
 
           <Reveal delay={100}>
             <p className="text-sm text-[#8a8a86] max-w-md font-light leading-relaxed">
-              Early-stage research questions and literature explorations — presented separately from completed research outputs or published papers.
+              {RESEARCH_CONTENT.subtitle}
             </p>
           </Reveal>
         </div>
@@ -44,7 +50,7 @@ export function Research() {
             <div className="flex items-center gap-2.5 mb-4">
               <FlaskConical className="w-4 h-4 text-[#d9b97a]" />
               <span className="text-[10px] uppercase tracking-[0.24em] text-[#d9b97a] font-medium">
-                Focus Areas Under Exploration
+                {RESEARCH_CONTENT.focusBoxHeading}
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -83,7 +89,7 @@ export function Research() {
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-xs">
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05] lg:col-span-3">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1">
-                      Research Question
+                      {fieldLabels.researchQuestion}
                     </span>
                     <p className="text-sm text-[#f4f4f2] font-normal leading-relaxed">
                       {topic.researchQuestion}
@@ -92,7 +98,7 @@ export function Research() {
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1.5">
-                      Published Literature Reviewed
+                      {fieldLabels.literatureReviewed}
                     </span>
                     <p className="text-[#8a8a86] leading-relaxed">
                       {topic.literatureReviewed}
@@ -101,7 +107,7 @@ export function Research() {
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1.5">
-                      My Own Analysis
+                      {fieldLabels.ownAnalysis}
                     </span>
                     <p className="text-[#8a8a86] leading-relaxed">
                       {topic.ownAnalysis}
@@ -110,7 +116,7 @@ export function Research() {
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1.5">
-                      Proposed Methodology
+                      {fieldLabels.proposedMethodology}
                     </span>
                     <p className="text-[#8a8a86] leading-relaxed">
                       {topic.proposedMethodology}
@@ -119,7 +125,7 @@ export function Research() {
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1.5">
-                      Experiments Conducted
+                      {fieldLabels.experimentsConducted}
                     </span>
                     <p className="text-[#8a8a86] leading-relaxed">
                       {topic.experimentsConducted}
@@ -128,7 +134,7 @@ export function Research() {
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1.5">
-                      Verified Findings
+                      {fieldLabels.verifiedFindings}
                     </span>
                     <p className="text-[#8a8a86] leading-relaxed">
                       {topic.verifiedFindings}
@@ -137,7 +143,7 @@ export function Research() {
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                     <span className="text-[10px] uppercase tracking-[0.22em] text-[#d9b97a] block mb-1.5">
-                      Future Work
+                      {fieldLabels.futureWork}
                     </span>
                     <p className="text-[#8a8a86] leading-relaxed">
                       {topic.futureWork}
@@ -154,4 +160,3 @@ export function Research() {
 }
 
 export default Research;
-

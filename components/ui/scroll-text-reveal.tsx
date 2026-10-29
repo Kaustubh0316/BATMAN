@@ -10,6 +10,8 @@ interface ScrollTextRevealProps {
   highlightWords?: string[];
   /** Optional custom eyebrow label above the text. */
   eyebrow?: string;
+  /** Label shown beneath the scroll progress bar. */
+  scrollHint?: string;
   /** Additional classes for the text container. */
   className?: string;
   /** Whether to use a sticky scroll container for an immersive scrub effect. Default: true. */
@@ -30,6 +32,7 @@ export function ScrollTextReveal({
   text,
   highlightWords = [],
   eyebrow,
+  scrollHint = "Scroll to reveal",
   className = "",
   sticky = true,
 }: ScrollTextRevealProps) {
@@ -222,7 +225,7 @@ export function ScrollTextReveal({
                 />
               </div>
               <span className="text-[10px] uppercase tracking-[0.26em] text-[#8a8a86]">
-                Scroll to reveal
+                {scrollHint}
               </span>
             </div>
           )}

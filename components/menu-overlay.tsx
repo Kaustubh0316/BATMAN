@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { X, ArrowUpRight } from "lucide-react";
-import { NAV_LINKS, PERSONAL_INFO } from "@/lib/data";
+import { NAVIGATION_CONTENT, NAV_LINKS, PERSONAL_INFO } from "@/lib/data";
 
 interface MenuOverlayProps {
   isOpen: boolean;
@@ -11,7 +11,6 @@ interface MenuOverlayProps {
 }
 
 export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
-  // Close menu on Escape key press & prevent body scroll
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -41,7 +40,7 @@ export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
       aria-label="Navigation Menu"
       className="fixed inset-0 z-50 flex flex-col justify-between bg-[#050505]/98 backdrop-blur-2xl px-6 py-8 md:px-16 md:py-12 animate-in fade-in duration-300"
     >
-      {/* Background ambient gold aura */}
+      {/* Background ambient aura */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
         <div className="w-[500px] h-[500px] rounded-full bg-[#d9b97a]/5 blur-[140px] pointer-events-none" />
       </div>
@@ -51,21 +50,23 @@ export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
         <div className="flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-[#d9b97a] animate-pulse" />
           <span className="text-[11px] uppercase tracking-[0.28em] text-[#8a8a86]">
-            {PERSONAL_INFO.badge}
+            {NAVIGATION_CONTENT.topBadge}
           </span>
         </div>
 
         <button
           onClick={onClose}
-          aria-label="Close navigation menu"
+          aria-label={NAVIGATION_CONTENT.closeMenuAriaLabel}
           className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs uppercase tracking-[0.2em] text-[#f4f4f2] transition-all duration-300 hover:border-[#d9b97a] hover:bg-[#d9b97a]/10"
         >
-          <span className="hidden sm:inline text-[#8a8a86] group-hover:text-white">Close</span>
+          <span className="hidden sm:inline text-[#8a8a86] group-hover:text-white">
+            {NAVIGATION_CONTENT.closeButtonText}
+          </span>
           <X className="w-4 h-4 text-[#d9b97a] transition-transform duration-300 group-hover:rotate-90" />
         </button>
       </div>
 
-      {/* Main Nav Links (Large Serif with Staggered Entrance) */}
+      {/* Main Nav Links */}
       <nav className="relative z-10 my-auto py-8">
         <ul className="flex flex-col gap-4 md:gap-6">
           {NAV_LINKS.map((link, idx) => (
@@ -100,7 +101,7 @@ export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-white/5 pt-6 text-xs text-[#8a8a86]">
         <div>
           <span className="block text-[10px] uppercase tracking-[0.25em] text-[#8a8a86] mb-1">
-            Direct Inquiries
+            {NAVIGATION_CONTENT.directInquiriesLabel}
           </span>
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
