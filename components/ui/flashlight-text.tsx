@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface FlashlightTextProps {
@@ -13,153 +13,111 @@ export interface FlashlightTextProps {
 /**
  * FlashlightText
  *
- * CRED-inspired cursor-tracked radial spotlight text effect.
- * Projects a single unified circular #ffffff beam across multiple paragraphs
- * using per-paragraph local coordinate projection + background-clip: text,
- * cutting pixel-smoothly across individual glyphs while leaving surrounding
- * copy in a calm, legible dim charcoal-silver tone.
+ * Exact CRED-style cursor flashlight text effect matching video:
+ * - Resting state (cursor OFF text): All copy rests uniformly in a calm, muted charcoal-silver tone.
+ * - Hover state (cursor ON text): A feathered circular beam of pure glowing #ffffff illuminates words directly beneath the cursor.
+ * - Leave state (cursor moves OFF text): The hover effect immediately ends, vanishing the beam and restoring the uniform resting state with zero lingering artifacts.
  */
 export function FlashlightText({
   paragraphs,
   className,
   paragraphClassName,
-  radius = 175,
+  radius = 170,
 }: FlashlightTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const pRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const handlePointerEnter = (e: React.PointerEvent<HTMLDivElement>) => {
     const container = containerRef.current;
-    if (!container) return;
+    const spotlight = spotlightRef.current;
+    if (!container || !spotlight) return;
 
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) return;
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    let rafId: number | null = null;
-    let isInView = false;
-    let hasInteracted = false;
+    spotlight.style.setProperty("--fx-x", `${x.toFixed(1)}px`);
+    spotlight.style.setProperty("--fx-y", `${y.toFixed(1)}px`);
+    spotlight.style.opacity = "1";
+  };
 
-    const initRect = container.getBoundingClientRect();
-    let curX = Math.max(140, initRect.width * 0.36);
-    let curY = 52;
-    let targetX = curX;
-    let targetY = curY;
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+    const spotlight = spotlightRef.current;
+    if (!container || !spotlight) return;
 
-    const applySpotlight = (x: number, y: number) => {
-      const list = pRefs.current;
-      for (let i = 0; i < list.length; i++) {
-        const p = list[i];
-        if (!p) continue;
-        const localX = x - p.offsetLeft;
-        const localY = y - p.offsetTop;
-        p.style.setProperty("--fx-x", `${localX.toFixed(1)}px`);
-        p.style.setProperty("--fx-y", `${localY.toFixed(1)}px`);
-      }
-    };
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    // Paint initial spotlight position immediately
-    applySpotlight(curX, curY);
+    spotlight.style.setProperty("--fx-x", `${x.toFixed(1)}px`);
+    spotlight.style.setProperty("--fx-y", `${y.toFixed(1)}px`);
+    spotlight.style.opacity = "1";
+  };
 
-    const tick = (now: number) => {
-      rafId = null;
-      if (!isInView) return;
-
-      if (!hasInteracted) {
-        const w = container.clientWidth || 520;
-        const h = container.clientHeight || 260;
-        targetX = w * 0.45 + Math.sin(now * 0.00075) * (w * 0.28);
-        targetY = h * 0.42 + Math.cos(now * 0.00055) * (h * 0.26);
-      }
-
-      const dx = targetX - curX;
-      const dy = targetY - curY;
-      curX += dx * 0.22;
-      curY += dy * 0.22;
-
-      applySpotlight(curX, curY);
-
-      if (!hasInteracted || Math.hypot(dx, dy) >= 0.25) {
-        rafId = window.requestAnimationFrame(tick);
-      }
-    };
-
-    const ensureLoop = () => {
-      if (rafId === null && isInView) {
-        rafId = window.requestAnimationFrame(tick);
-      }
-    };
-
-    const handlePointerMove = (e: PointerEvent) => {
-      if (!isInView) return;
-      const rect = container.getBoundingClientRect();
-      const halo = 88;
-
-      if (
-        e.clientX < rect.left - halo ||
-        e.clientX > rect.right + halo ||
-        e.clientY < rect.top - halo ||
-        e.clientY > rect.bottom + halo
-      ) {
-        return;
-      }
-
-      hasInteracted = true;
-      const rawX = e.clientX - rect.left;
-      const rawY = e.clientY - rect.top;
-      targetX = Math.min(Math.max(rawX, -28), rect.width + 28);
-      targetY = Math.min(Math.max(rawY, -28), rect.height + 28);
-      ensureLoop();
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        isInView = Boolean(entry?.isIntersecting);
-        if (isInView) {
-          ensureLoop();
-        } else if (rafId !== null) {
-          window.cancelAnimationFrame(rafId);
-          rafId = null;
-        }
-      },
-      { threshold: 0.05, rootMargin: "100px 0px" }
-    );
-
-    observer.observe(container);
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("pointermove", handlePointerMove);
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
-    };
-  }, []);
+  const handlePointerLeave = () => {
+    const spotlight = spotlightRef.current;
+    if (!spotlight) return;
+    // When the cursor leaves the text, end the hover effect completely
+    spotlight.style.opacity = "0";
+  };
 
   return (
     <div
       ref={containerRef}
-      className={cn("relative space-y-5 cursor-default", className)}
+      onPointerEnter={handlePointerEnter}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className={cn("relative space-y-5 cursor-default select-text", className)}
     >
-      {paragraphs.map((paragraph, index) => (
-        <p
-          key={index}
-          ref={(el) => {
-            pRefs.current[index] = el;
-          }}
-          style={{ "--fx-radius": `${radius}px` } as React.CSSProperties}
-          className={cn(
-            "flashlight-paragraph font-sans text-base sm:text-lg md:text-[19px] font-normal leading-[1.68] tracking-[-0.005em]",
-            paragraphClassName
-          )}
-        >
-          {paragraph}
-        </p>
-      ))}
+      {/* ================================================================== */}
+      {/* BASE LAYER: Muted charcoal-silver resting text (Frame 00:11)       */}
+      {/* ================================================================== */}
+      <div className="space-y-5">
+        {paragraphs.map((paragraph, index) => (
+          <p
+            key={`base-${index}`}
+            className={cn(
+              "font-sans text-base sm:text-lg md:text-[19px] font-normal leading-[1.68] tracking-[-0.005em] text-white/[0.28] transition-colors duration-200",
+              paragraphClassName
+            )}
+          >
+            {paragraph}
+          </p>
+        ))}
+      </div>
+
+      {/* ================================================================== */}
+      {/* SPOTLIGHT LAYER: Pure #ffffff beam, visible ONLY on active hover   */}
+      {/* ================================================================== */}
+      <div
+        ref={spotlightRef}
+        aria-hidden="true"
+        className="absolute inset-0 space-y-5 pointer-events-none select-none transition-opacity duration-200 ease-out"
+        style={
+          {
+            opacity: 0,
+            "--fx-x": "-9999px",
+            "--fx-y": "-9999px",
+            WebkitMaskImage: `radial-gradient(${radius}px circle at var(--fx-x) var(--fx-y), #000 0%, #000 32%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.15) 86%, transparent 100%)`,
+            maskImage: `radial-gradient(${radius}px circle at var(--fx-x) var(--fx-y), #000 0%, #000 32%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.15) 86%, transparent 100%)`,
+          } as React.CSSProperties
+        }
+      >
+        {paragraphs.map((paragraph, index) => (
+          <p
+            key={`spot-${index}`}
+            className={cn(
+              "font-sans text-base sm:text-lg md:text-[19px] font-medium leading-[1.68] tracking-[-0.005em] text-white drop-shadow-[0_0_16px_rgba(255,255,255,0.45)]",
+              paragraphClassName
+            )}
+          >
+            {paragraph}
+          </p>
+        ))}
+      </div>
     </div>
   );
 }
 
 export default FlashlightText;
-

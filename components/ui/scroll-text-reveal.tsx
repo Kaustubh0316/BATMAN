@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState, useMemo, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
-import { SlideEyebrow } from "@/components/ui/slide-transition";
 
 interface ScrollTextRevealProps {
   /** The full text to reveal word by word. */
@@ -28,20 +27,25 @@ export function ScrollTextReveal({
   sticky = true,
 }: ScrollTextRevealProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
   const [scrollProgress, setProgress] = useState(0);
+  const [spot, setSpot] = useState({ x: 0, y: 0, active: false });
+
   const reducedMotion = useSyncExternalStore(
     (cb) => {
+      if (typeof window === "undefined") return () => {};
       const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
       mq.addEventListener("change", cb);
       return () => mq.removeEventListener("change", cb);
     },
-    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () =>
+      typeof window !== "undefined"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        : false,
     () => false
   );
-  const progress = reducedMotion ? 1 : scrollProgress;
 
-  const textRef = useRef<HTMLDivElement | null>(null);
-  const [spot, setSpot] = useState({ x: 0, y: 0, active: false });
+  const progress = reducedMotion ? 1 : scrollProgress;
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const r = textRef.current?.getBoundingClientRect();
@@ -49,7 +53,7 @@ export function ScrollTextReveal({
     setSpot({ x: e.clientX - r.left, y: e.clientY - r.top, active: true });
   };
 
-  const words = useMemo(() => text.split(" "), [text]);
+  const words = useMemo(() => text.split(/\s+/).filter(Boolean), [text]);
 
   const normalizedHighlights = useMemo(
     () => highlightWords.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, "")),
@@ -75,20 +79,17 @@ export function ScrollTextReveal({
 
           if (sticky) {
             const totalDistance = rect.height - windowHeight;
-            const currentScrolled = -rect.top + windowHeight * 0.45;
-            const rawProgress =
-              totalDistance > 0
-                ? currentScrolled / (totalDistance + windowHeight * 0.45)
-                : 0;
-            const earlyProgress = Math.min(1, Math.max(0, rawProgress / 0.45));
-            setProgress(earlyProgress);
+            // Begin the reveal slightly early as the section enters the viewport
+            const scrolled = -rect.top + windowHeight * 0.38;
+            const raw = totalDistance > 0 ? scrolled / (totalDistance * 0.82) : 0;
+            setProgress(Math.min(1, Math.max(0, raw)));
           } else {
-            const startReveal = windowHeight * 0.95;
-            const endReveal = windowHeight * 0.4;
+            // Calibrated scroll window so words reveal progressively in this exact space
+            const startReveal = windowHeight * 0.65;
+            const endReveal = windowHeight * 0.04;
             const currentY = rect.top;
-            const rawProgress =
-              (startReveal - currentY) / (startReveal - endReveal);
-            setProgress(Math.min(1, Math.max(0, rawProgress)));
+            const raw = (startReveal - currentY) / (startReveal - endReveal);
+            setProgress(Math.min(1, Math.max(0, raw)));
           }
 
           ticking = false;
@@ -112,25 +113,22 @@ export function ScrollTextReveal({
       ref={containerRef}
       className={cn(
         "relative w-full",
-        sticky ? "h-[130vh] sm:h-[150vh]" : "py-20 sm:py-28"
+        sticky ? "h-[160vh] sm:h-[175vh]" : "pt-20 sm:pt-24 pb-10 sm:pb-12"
       )}
     >
       <div
         className={cn(
-          "w-full flex flex-col items-center justify-center px-6 sm:px-12 md:px-16",
+          "w-full flex flex-col justify-center px-6 sm:px-12 md:px-16",
           sticky ? "sticky top-0 h-screen" : ""
         )}
       >
-        <div className="max-w-5xl mx-auto text-center w-full">
+        <div className="max-w-4xl lg:max-w-5xl mx-auto w-full text-left">
           {eyebrow && (
-            <SlideEyebrow>
-              <div className="inline-flex items-center gap-3 mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.02]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#d9b97a] animate-pulse" />
-                <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-                  {eyebrow}
-                </span>
-              </div>
-            </SlideEyebrow>
+            <div className="mb-6 sm:mb-10">
+              <span className="text-xs sm:text-[13px] font-sans font-bold uppercase tracking-[0.24em] text-white select-none">
+                {eyebrow}
+              </span>
+            </div>
           )}
 
           <div
@@ -139,61 +137,62 @@ export function ScrollTextReveal({
             onPointerLeave={() => setSpot((s) => ({ ...s, active: false }))}
             className="relative"
           >
+            {/* Interactive Flashlight Layer (illuminates text near cursor) */}
+            {spot.active && (
+              <p
+                aria-hidden="true"
+                className={cn(
+                  "absolute inset-0 pointer-events-none font-sans font-bold text-3xl sm:text-5xl md:text-[54px] lg:text-[60px] leading-[1.22] sm:leading-[1.16] tracking-[-0.03em] select-none text-left text-white transition-opacity duration-200",
+                  className
+                )}
+                style={{
+                  WebkitMaskImage: `radial-gradient(circle 200px at ${spot.x}px ${spot.y}px, #ffffff 0%, rgba(255,255,255,0.45) 50%, transparent 100%)`,
+                  maskImage: `radial-gradient(circle 200px at ${spot.x}px ${spot.y}px, #ffffff 0%, rgba(255,255,255,0.45) 50%, transparent 100%)`,
+                }}
+              >
+                {words.map((word, index) => (
+                  <span
+                    key={`spot-${word}-${index}`}
+                    className="inline-block mr-[0.24em]"
+                  >
+                    {word}
+                  </span>
+                ))}
+              </p>
+            )}
+
+            {/* Base Scroll Scrub Layer: Muted (0.18) -> Solid White (1.0) */}
             <p
-              aria-hidden="true"
               className={cn(
-                "absolute inset-0 pointer-events-none font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2] sm:leading-[1.18] tracking-[-0.02em] select-none text-white transition-opacity duration-300",
-                className
-              )}
-              style={{
-                opacity: spot.active ? 1 : 0,
-                WebkitMaskImage: `radial-gradient(circle 150px at ${spot.x}px ${spot.y}px, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)`,
-                maskImage: `radial-gradient(circle 150px at ${spot.x}px ${spot.y}px, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)`,
-              }}
-            >
-              {words.map((word, index) => (
-                <span
-                  key={`spot-${word}-${index}`}
-                  className="inline-block mr-[0.26em]"
-                >
-                  {word}
-                </span>
-              ))}
-            </p>
-            <p
-              className={cn(
-                "font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2] sm:leading-[1.18] tracking-[-0.02em] select-none",
+                "font-sans font-bold text-3xl sm:text-5xl md:text-[54px] lg:text-[60px] leading-[1.22] sm:leading-[1.16] tracking-[-0.03em] select-none text-left",
                 className
               )}
             >
               {words.map((word, index) => {
                 const totalWords = words.length;
-                const wordStart = index / (totalWords + 1);
-                const wordEnd = (index + 1.8) / (totalWords + 1);
-
+                // Progressive word-by-word reveal calibrated across the scroll space
+                const start = (index / totalWords) * 0.90;
+                const end = start + 1.25 / totalWords;
                 const wordProgress = Math.min(
                   1,
-                  Math.max(0, (progress - wordStart) / (wordEnd - wordStart))
+                  Math.max(0, (progress - start) / (end - start))
                 );
 
                 const cleanWord = word.toLowerCase().replace(/[^a-z0-9]/g, "");
                 const isHighlight = normalizedHighlights.includes(cleanWord);
-                const textAlpha = 0.12 + 0.88 * wordProgress;
+                const alpha = 0.18 + 0.82 * wordProgress;
 
                 return (
                   <span
                     key={`${word}-${index}`}
-                    className="inline-block mr-[0.26em] transition-colors duration-150 will-change-[color,filter]"
+                    className="inline-block mr-[0.24em] transition-colors duration-200 ease-out will-change-[color]"
                     style={{
-                      color:
-                        wordProgress > 0.2
-                          ? isHighlight
-                            ? `rgba(226, 230, 238, ${textAlpha})`
-                            : `rgba(244, 244, 242, ${textAlpha})`
-                          : `rgba(255, 255, 255, ${textAlpha})`,
-                      filter:
-                        wordProgress > 0.3 && isHighlight
-                          ? `drop-shadow(0 0 16px rgba(226, 230, 238, ${wordProgress * 0.4}))`
+                      color: `rgba(255, 255, 255, ${alpha.toFixed(3)})`,
+                      textShadow:
+                        wordProgress > 0.6
+                          ? `0 0 24px rgba(255, 255, 255, ${(
+                              wordProgress * (isHighlight ? 0.35 : 0.22)
+                            ).toFixed(3)})`
                           : "none",
                     }}
                   >
@@ -204,15 +203,15 @@ export function ScrollTextReveal({
             </p>
           </div>
 
-          {sticky && (
-            <div className="mt-12 flex flex-col items-center gap-3">
-              <div className="w-40 sm:w-56 h-[2px] bg-white/10 rounded-full overflow-hidden">
+          {scrollHint && (
+            <div className="mt-8 sm:mt-10 flex items-center gap-4">
+              <div className="w-28 sm:w-36 h-[2px] bg-white/10 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#d9b97a] to-[#f0dbaf] transition-all duration-75 ease-out"
+                  className="h-full bg-white transition-all duration-75 ease-out shadow-[0_0_8px_rgba(255,255,255,0.7)]"
                   style={{ width: `${Math.round(progress * 100)}%` }}
                 />
               </div>
-              <span className="text-[10px] uppercase tracking-[0.26em] text-[#8a8a86]">
+              <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-white/50">
                 {scrollHint}
               </span>
             </div>

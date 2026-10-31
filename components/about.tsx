@@ -20,7 +20,7 @@ export function About({ hasPhoto = true }: AboutProps) {
   return (
     <section
       id="about"
-      className="relative pt-12 sm:pt-16 pb-24 sm:pb-32 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505]"
+      className="relative pt-8 sm:pt-12 pb-24 sm:pb-32 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505]"
     >
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute left-0 top-1/3 w-96 h-96 rounded-full bg-[#d9b97a]/5 blur-[120px]" />
