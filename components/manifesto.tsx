@@ -18,7 +18,7 @@ export function Manifesto() {
         text={MANIFESTO_CONTENT.text}
         highlightWords={MANIFESTO_CONTENT.highlightWords}
         scrollHint={MANIFESTO_CONTENT.scrollHint}
-        sticky={true}
+        sticky={false}
       />
     </section>
   );

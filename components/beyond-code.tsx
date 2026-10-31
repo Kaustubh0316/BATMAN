@@ -1,10 +1,28 @@
 "use client";
 
 import React from "react";
-import { Users } from "lucide-react";
-import { GlowCard } from "@/components/ui/spotlight-card";
+import { Calendar, Mic, Trophy, Users, Zap } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
+import { SlideEyebrow, SlideHeading } from "@/components/ui/slide-transition";
+import { LiquidGlassTab } from "@/components/ui/liquid-glass-tab";
 import { EXPERIENCE_CONTENT, LEADERSHIP_EXPERIENCE } from "@/lib/data";
+
+function getExperienceIcon(id: string) {
+  switch (id) {
+    case "class-representative":
+      return <Users className="w-5 h-5 sm:w-6 sm:h-6" />;
+    case "sports-captain":
+      return <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />;
+    case "track-sprinting":
+      return <Zap className="w-5 h-5 sm:w-6 sm:h-6" />;
+    case "event-farewell-trip-planning":
+      return <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />;
+    case "society-volunteering-anchoring":
+      return <Mic className="w-5 h-5 sm:w-6 sm:h-6" />;
+    default:
+      return <Users className="w-5 h-5 sm:w-6 sm:h-6" />;
+  }
+}
 
 export function BeyondCode() {
   return (
@@ -12,64 +30,69 @@ export function BeyondCode() {
       id="beyond"
       className="relative py-24 sm:py-32 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505]"
     >
-      {/* Background Ambience */}
-      <div className="pointer-events-none absolute left-1/3 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#d9b97a]/5 blur-[150px]" />
+      {/* Subtle Silver Refractive Ambient Light Pools Behind Liquid Glass */}
+      <div
+        className="pointer-events-none absolute left-1/3 top-1/3 -translate-y-1/2 w-[460px] h-[460px] rounded-full blur-[145px]"
+        style={{ background: "rgba(210, 220, 236, 0.08)" }}
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute right-1/4 bottom-1/5 w-96 h-96 rounded-full blur-[135px]"
+        style={{ background: "rgba(182, 196, 218, 0.07)" }}
+        aria-hidden="true"
+      />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <Reveal>
-            <div>
+          <div>
+            <SlideEyebrow>
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
                   {EXPERIENCE_CONTENT.eyebrow}
                 </span>
                 <div className="h-[1px] w-12 bg-[#d9b97a]/30" />
               </div>
+            </SlideEyebrow>
+            <SlideHeading delay={190}>
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white tracking-tight">
                 {EXPERIENCE_CONTENT.heading}
               </h2>
-            </div>
-          </Reveal>
+            </SlideHeading>
+          </div>
 
-          <Reveal delay={100}>
+          <Reveal delay={330}>
             <p className="text-sm text-[#8a8a86] max-w-md font-light leading-relaxed">
               {EXPERIENCE_CONTENT.subtitle}
             </p>
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {LEADERSHIP_EXPERIENCE.map((item, index) => (
-            <Reveal key={item.id} delay={index * 70}>
-              <GlowCard
-                customSize
-                glowColor="silver"
-                className="w-full h-full min-h-[220px] grid-rows-1 flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-[#090909]/90 border border-white/[0.08] hover:border-[#d0d4da]/40 transition-colors duration-300"
+        {/* Control-Center Bento Grid of Liquid Glass Tabs */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-7">
+          {LEADERSHIP_EXPERIENCE.map((item, index) => {
+            const spanClass =
+              index < 3
+                ? "lg:col-span-2"
+                : index === LEADERSHIP_EXPERIENCE.length - 1
+                  ? "md:col-span-2 lg:col-span-3"
+                  : "lg:col-span-3";
+
+            return (
+              <Reveal
+                key={item.id}
+                delay={360 + index * 80}
+                className={`h-full ${spanClass}`}
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-5">
-                    <div className="w-9 h-9 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#d9b97a] shrink-0">
-                      <Users className="w-4 h-4" />
-                    </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-sans tracking-[0.18em] uppercase text-[#d9b97a] border border-white/10 bg-white/[0.03]">
-                      {item.category}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif text-2xl text-white tracking-tight mb-1">
-                    {item.role}
-                  </h3>
-                  <span className="text-[10px] uppercase tracking-[0.22em] text-[#8a8a86] block mb-3">
-                    {item.context}
-                  </span>
-
-                  <p className="text-xs sm:text-sm text-[#8a8a86] font-light leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </GlowCard>
-            </Reveal>
-          ))}
+                <LiquidGlassTab
+                  icon={getExperienceIcon(item.id)}
+                  title={item.role}
+                  subtitle={item.context}
+                  description={item.description}
+                  badge={item.category}
+                />
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

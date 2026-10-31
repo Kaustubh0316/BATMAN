@@ -27,6 +27,7 @@
  */
 
 import type {
+  ArchiveTapeItem,
   Certificate,
   ExperienceItem,
   NavLink,
@@ -40,6 +41,7 @@ import type {
 } from "@/lib/types";
 
 export type {
+  ArchiveTapeItem,
   Certificate,
   ExperienceItem,
   NavLink,
@@ -76,16 +78,23 @@ export const PERSONAL_INFO = {
   email: "btech2026.kaustubhc@isu.ac.in",
   github: "https://github.com/kaustubhchamankar16-pixel",
   linkedin: "https://www.linkedin.com/in/kaustubh-c-14b1443b9/",
+  instagram:
+    "https://www.instagram.com/kaustubh_122?dlrf=MW55YXNsYzNtdmM0OQ%3D%3D&utm_source=qr",
   socials: [
     {
-      name: "GitHub",
-      url: "https://github.com/kaustubhchamankar16-pixel",
-      handle: "kaustubhchamankar16-pixel",
+      name: "Instagram",
+      url: "https://www.instagram.com/kaustubh_122?dlrf=MW55YXNsYzNtdmM0OQ%3D%3D&utm_source=qr",
+      handle: "@kaustubh_122",
     },
     {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/kaustubh-c-14b1443b9/",
       handle: "Kaustubh Chamankar",
+    },
+    {
+      name: "GitHub",
+      url: "https://github.com/kaustubhchamankar16-pixel",
+      handle: "kaustubhchamankar16-pixel",
     },
   ] satisfies SocialLink[],
 };
@@ -95,6 +104,7 @@ export const PERSONAL_INFO = {
 /* ========================================================================== */
 
 export const NAVIGATION_CONTENT = {
+  homeLabel: "Home",
   topBadge: "EXPLORING AI, RESEARCH & CODE",
   topSubBadge: "B.Tech CSE • First Year",
   openMenuAriaLabel: "Open navigation menu",
@@ -119,6 +129,11 @@ export const NAV_LINKS: NavLink[] = [
 
 export const HERO_CONTENT = {
   eyebrow: `${PERSONAL_INFO.name} • ${PERSONAL_INFO.title}`,
+  greetingScript: "Hello, I'm",
+  firstName: "KAUSTUBH",
+  lastName: "CHAMANKAR",
+  badgeTagline: "Turning ideas into powerful digital experiences.",
+  portfolioWatermark: "PORTFOLIO",
   headlinePrefix: "Exploring AI, Research, and the",
   headlineHighlight: "Possibilities of Code.",
   subtitle:
@@ -129,6 +144,7 @@ export const HERO_CONTENT = {
   secondaryButtonHref: "#contact",
   githubLabel: "GitHub",
   linkedinLabel: "LinkedIn",
+  instagramLabel: "Instagram",
   scrollCueText: "Scroll to explore",
   cornerCardLine1: "First-Year B.Tech CSE",
   cornerCardLine2: PERSONAL_INFO.institution,
@@ -208,6 +224,9 @@ export const SKILLS_CONTENT = {
   heading: "foundations & learning.",
   subtitle:
     "An honest overview of the programming languages, AI concepts, research topics, and tools I am currently learning and exploring as a first-year engineering student.",
+  galleryHintDesktop: "Scroll to glide across chapters",
+  galleryHintMobile: "Swipe horizontally across chapters",
+  chapterPrefix: "Chapter",
 };
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
@@ -292,6 +311,13 @@ export const PROJECTS_CONTENT = {
     "Event Planning",
   ] satisfies ProjectCategory[],
   labels: {
+    scrollytellingBadge: "Scrollytelling Archive",
+    chapterCounterLabel: "Chapter",
+    exploreSlideButton: "Explore project",
+    dragOrScrollHint: "Scroll or drag",
+    prevProjectAriaLabel: "Previous project",
+    nextProjectAriaLabel: "Next project",
+    closeDetailsAriaLabel: "Close project details",
     viewDetails: "View Details",
     hideDetails: "Hide Details",
     contributionPrefix: "My Contribution So Far:",
@@ -530,12 +556,90 @@ export const PROJECTS: Project[] = [
 ];
 
 /* ========================================================================== */
+/* 06B. INTERLUDE — 3D ARCHIVE HELIX LOOP (BETWEEN PROJECTS & RESEARCH)       */
+/* ========================================================================== */
+
+export const ARCHIVE_LOOP_CONTENT = {
+  ariaLabel: "Interactive 3D technical archive transition",
+  tapes: [
+    {
+      id: "ocean-archive",
+      brandLabel: "KC // ARCHIVE",
+      tapeCode: "METAL-ES 100",
+      sideLabel: "TYPE IV • BAY OF BENGAL",
+      hudTitle: "OCEAN DATA PLATFORM",
+      hudMeta: "RESEARCH & PLANNING // 3D VISUALIZATION /",
+    },
+    {
+      id: "rag-archive",
+      brandLabel: "KC // R&D",
+      tapeCode: "UX-S 46",
+      sideLabel: "TYPE II • RETRIEVAL GROUNDING",
+      hudTitle: "RAG HALLUCINATION STUDY",
+      hudMeta: "RESEARCH DEVELOPMENT // LITERATURE INQUIRY /",
+    },
+    {
+      id: "policy-archive",
+      brandLabel: "KC // SAFETY",
+      tapeCode: "METAL-SR 94",
+      sideLabel: "TYPE IV • POLICY GUARDRAILS",
+      hudTitle: "AI POLICY VERIFICATION",
+      hudMeta: "PROTOTYPE PLANNING // GUARDRAILS R&D /",
+    },
+    {
+      id: "genai-archive",
+      brandLabel: "ISU // CSE",
+      tapeCode: "CDix II 90",
+      sideLabel: "TYPE II • COMPARATIVE STUDY",
+      hudTitle: "GEN-AI COMPARATIVE STUDY",
+      hudMeta: "ACADEMIC WORK // PROMPT EVALUATION /",
+    },
+    {
+      id: "rika-archive",
+      brandLabel: "KC // VENTURE",
+      tapeCode: "METAL-XR 60",
+      sideLabel: "TYPE IV • SUPPLY CHAIN",
+      hudTitle: "RIKA VENTURE CONCEPT",
+      hudMeta: "CONCEPT EXPLORED // VALUE-ADDED LOGISTICS /",
+    },
+    {
+      id: "freshloop-archive",
+      brandLabel: "KC // AGRI",
+      tapeCode: "UX-PRO 100",
+      sideLabel: "TYPE II • CIRCULAR ECONOMY",
+      hudTitle: "FRESHLOOP AGRITECH",
+      hudMeta: "BUSINESS PLANNING // WASTE RECOVERY /",
+    },
+  ] satisfies ArchiveTapeItem[],
+};
+
+/* ========================================================================== */
 /* 07. SECTION 04 — RESEARCH & DEVELOPMENT INTERESTS                          */
 /* ========================================================================== */
 
 export const RESEARCH_CONTENT = {
   eyebrow: "04 // Research & Development",
   heading: "research interests.",
+  headlineLead: "Exploring research across ",
+  headlineConjunction: "and ",
+  headlineTopics: [
+    "retrieval grounding,",
+    "policy guardrails,",
+    "ocean visualization.",
+  ],
+  cardShortTitles: [
+    "RAG & Grounding",
+    "Policy Guardrails",
+    "Ocean Visualization",
+  ],
+  dragCursorLabel: "Drag",
+  inspectBreakdownLabel: "Full Research Breakdown",
+  inspectCardLabel: "View Research Notes",
+  dossierHeadingLine1: "RESEARCH DEPTH,",
+  dossierHeadingLine2: "STRUCTURED INQUIRY",
+  closeModalAriaLabel: "Close research details",
+  prevTopicAriaLabel: "Previous research topic",
+  nextTopicAriaLabel: "Next research topic",
   subtitle:
     "Early-stage research questions and literature explorations — presented separately from completed research outputs or published papers.",
   focusBoxHeading: "Focus Areas Under Exploration",
@@ -740,9 +844,15 @@ export const CONTACT_CONTENT = {
 /* ========================================================================== */
 
 export const FOOTER_CONTENT = {
+  brandDescriptionLine1: "COMPUTER SCIENCE ENGINEERING STUDENT",
+  brandDescriptionLine2: "EXPLORING AI, RESEARCH & PRACTICAL DEVELOPMENT.",
+  navigationHeading: "NAVIGATION",
+  socialsHeading: "SOCIALS",
+  emailLinkLabel: "EMAIL",
+  rightsReserved: "ALL RIGHTS RESERVED.",
   roleLabel: PERSONAL_INFO.role,
   copyrightTagline: "Built with curiosity & precision.",
-  backToTopText: "Top",
+  backToTopText: "BACK TO TOP",
   backToTopAriaLabel: "Back to top of page",
 };
 

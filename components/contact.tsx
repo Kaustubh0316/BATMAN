@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ArrowUpRight, Copy, Check } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
+import { SlideEyebrow, SlideHeading } from "@/components/ui/slide-transition";
 import { CONTACT_CONTENT, PERSONAL_INFO } from "@/lib/data";
 
 export function Contact() {
@@ -25,38 +26,38 @@ export function Contact() {
       <div className="pointer-events-none absolute left-1/2 bottom-0 -translate-x-1/2 w-[600px] h-[350px] rounded-t-full bg-radial from-[#d9b97a]/15 via-[#d9b97a]/5 to-transparent blur-[100px]" />
 
       <div className="max-w-5xl mx-auto text-center relative z-10">
-        {/* Section Eyebrow */}
-        <Reveal>
+        {/* Beat 1: Section Eyebrow */}
+        <SlideEyebrow>
           <div className="inline-flex items-center gap-3 mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.02]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d9b97a]" />
             <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
               {CONTACT_CONTENT.eyebrow}
             </span>
           </div>
-        </Reveal>
+        </SlideEyebrow>
 
-        {/* Huge Serif Heading */}
-        <Reveal delay={100}>
+        {/* Beat 2: Left-to-Right Feathered Wipe Serif Heading */}
+        <SlideHeading delay={190}>
           <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-[-0.03em] leading-[1.02] mb-8">
             {CONTACT_CONTENT.headingLine1}
             <br />
             {CONTACT_CONTENT.headingLine2}
           </h2>
-        </Reveal>
+        </SlideHeading>
 
-        {/* Short Subtitle */}
-        <Reveal delay={150}>
+        {/* Beat 3: Short Subtitle */}
+        <Reveal delay={350}>
           <p className="font-sans text-sm sm:text-base md:text-lg text-[#8a8a86] max-w-xl mx-auto font-light leading-relaxed mb-12">
             {CONTACT_CONTENT.subtitle}
           </p>
         </Reveal>
 
         {/* Public Email as Big Underlined Link + Copy Button */}
-        <Reveal delay={200}>
+        <Reveal delay={440}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
-              className="font-serif text-2xl sm:text-4xl md:text-5xl text-white hover:text-[#d9b97a] transition-colors underline decoration-[#d9b97a]/40 hover:decoration-[#d9b97a] underline-offset-8"
+              className="font-serif text-2xl sm:text-4xl md:text-5xl text-white hover:text-[#d9b97a] transition-colors underline decoration-[#d9b97a]/40 hover:decoration-[#d9b97a] underline-offset-8 break-all"
             >
               {PERSONAL_INFO.email}
             </a>
@@ -84,7 +85,7 @@ export function Contact() {
         </Reveal>
 
         {/* Social Links Row */}
-        <Reveal delay={250}>
+        <Reveal delay={530}>
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-10 border-t border-white/[0.06]">
             {PERSONAL_INFO.socials.map((social) => (
               <a

@@ -102,3 +102,13 @@ export interface NavLink {
   href: string;
 }
 
+export interface ArchiveTapeItem {
+  id: string;
+  brandLabel: string;
+  tapeCode: string;
+  sideLabel: string;
+  hudTitle: string;
+  hudMeta: string;
+}
+
+

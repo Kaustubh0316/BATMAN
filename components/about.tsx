@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { GraduationCap, Compass } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
+import { SlideEyebrow, SlideHeading } from "@/components/ui/slide-transition";
+import { FlashlightText } from "@/components/ui/flashlight-text";
 import { ABOUT_CONTENT, PERSONAL_INFO } from "@/lib/data";
 
 interface AboutProps {
@@ -18,27 +20,27 @@ export function About({ hasPhoto = true }: AboutProps) {
   return (
     <section
       id="about"
-      className="relative py-24 sm:py-32 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505]"
+      className="relative pt-12 sm:pt-16 pb-24 sm:pb-32 px-6 sm:px-12 md:px-16 border-t border-white/[0.06] bg-[#050505]"
     >
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute left-0 top-1/3 w-96 h-96 rounded-full bg-[#d9b97a]/5 blur-[120px]" />
 
       <div className="max-w-7xl mx-auto">
-        {/* Section Eyebrow */}
-        <Reveal>
+        {/* Beat 1: Section Eyebrow */}
+        <SlideEyebrow>
           <div className="flex items-center gap-3 mb-12">
             <span className="text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
               {ABOUT_CONTENT.eyebrow}
             </span>
             <div className="h-[1px] w-12 bg-[#d9b97a]/30" />
           </div>
-        </Reveal>
+        </SlideEyebrow>
 
         {/* 2-Column Grid: Photo Frame on Left, Narrative & Education on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Architectural Photo Frame with Initials Fallback */}
           <div className="lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none">
-            <Reveal delay={100}>
+            <Reveal delay={320}>
               <div className="relative group aspect-[4/5] rounded-2xl p-2 bg-gradient-to-b from-white/[0.08] via-white/[0.02] to-transparent border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-sm overflow-hidden">
                 {/* Corner accent notches */}
                 <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#d9b97a] z-20" />
@@ -79,7 +81,9 @@ export function About({ hasPhoto = true }: AboutProps) {
                   {/* Subtle caption bar on bottom */}
                   <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-[#8a8a86] z-10">
                     <span>{ABOUT_CONTENT.photoCaptionLeft}</span>
-                    <span className="text-[#d9b97a]">{ABOUT_CONTENT.photoCaptionRight}</span>
+                    <span className="text-[#d9b97a]">
+                      {ABOUT_CONTENT.photoCaptionRight}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -88,22 +92,18 @@ export function About({ hasPhoto = true }: AboutProps) {
 
           {/* Right Column: Bio Narrative, Education Card & Current Interests */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <Reveal delay={150}>
+            <SlideHeading delay={190}>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-[1.1] mb-6">
                 {ABOUT_CONTENT.heading}
               </h2>
-            </Reveal>
+            </SlideHeading>
 
-            <Reveal delay={200}>
-              <div className="space-y-4 text-sm sm:text-base text-[#8a8a86] font-light leading-relaxed">
-                {ABOUT_CONTENT.bioParagraphs.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
+            <Reveal delay={360}>
+              <FlashlightText paragraphs={ABOUT_CONTENT.bioParagraphs} />
             </Reveal>
 
             {/* Education Block */}
-            <Reveal delay={250}>
+            <Reveal delay={450}>
               <div className="mt-8 p-6 rounded-2xl border border-white/[0.08] bg-[#090909]/80">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#d9b97a]">
@@ -165,7 +165,7 @@ export function About({ hasPhoto = true }: AboutProps) {
             </Reveal>
 
             {/* Current Interests */}
-            <Reveal delay={300}>
+            <Reveal delay={530}>
               <div className="mt-6 p-6 rounded-2xl border border-white/[0.08] bg-[#090909]/50">
                 <div className="flex items-center gap-2.5 mb-3">
                   <Compass className="w-4 h-4 text-[#d9b97a]" />

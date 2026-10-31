@@ -7,12 +7,14 @@ import { Manifesto } from "@/components/manifesto";
 import { About } from "@/components/about";
 import { Skills } from "@/components/skills";
 import { Projects } from "@/components/projects";
+import { ArchiveLoop } from "@/components/archive-loop";
 import { Research } from "@/components/research";
 import { Certificates } from "@/components/certificates";
 import { BeyondCode } from "@/components/beyond-code";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 import { CredTheme } from "@/components/cred-theme";
+import { SlideStageCurtain } from "@/components/ui/slide-transition";
 
 export default function Home() {
   // Check if photo.jpg is present in the public directory
@@ -22,6 +24,9 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-[#050505] text-[#f4f4f2] selection:bg-white/20 selection:text-white">
       <CredTheme>
+        {/* Global XPlace Slide-Change Stage Curtain */}
+        <SlideStageCurtain />
+
         {/* Floating Header / Navigation */}
         <Navbar />
 
@@ -32,13 +37,14 @@ export default function Home() {
           <About hasPhoto={hasPhoto} />
           <Skills />
           <Projects />
+          <ArchiveLoop />
           <Research />
           <Certificates />
           <BeyondCode />
           <Contact />
         </main>
 
-        {/* Footer */}
+        {/* Studio-Inspired 3-Column Black Editorial Footer */}
         <Footer />
       </CredTheme>
     </div>

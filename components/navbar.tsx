@@ -34,7 +34,7 @@ export function Navbar() {
               onClick={() => setIsMenuOpen(true)}
               aria-label={NAVIGATION_CONTENT.openMenuAriaLabel}
               aria-expanded={isMenuOpen}
-              className="flex flex-col items-center justify-center w-12 h-12 text-white hover:text-[#d9b97a] hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
+              className="group flex flex-col items-center justify-center w-12 h-12 text-white hover:text-[#d9b97a] hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
             >
               <div className="w-5 flex flex-col gap-1 items-end">
                 <span className="w-5 h-[1.5px] bg-white transition-all duration-300" />

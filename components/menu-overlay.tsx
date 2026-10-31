@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { X, ArrowUpRight } from "lucide-react";
+import { Logo } from "@/components/logo";
 import { NAVIGATION_CONTENT, NAV_LINKS, PERSONAL_INFO } from "@/lib/data";
 
 interface MenuOverlayProps {
@@ -47,8 +48,10 @@ export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
 
       {/* Top Bar with Close Button */}
       <div className="relative z-10 flex items-center justify-between border-b border-white/5 pb-6">
-        <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[#d9b97a] animate-pulse" />
+        <div className="flex items-center gap-3.5">
+          <div onClick={onClose}>
+            <Logo size="sm" showWordmark={false} />
+          </div>
           <span className="text-[11px] uppercase tracking-[0.28em] text-[#8a8a86]">
             {NAVIGATION_CONTENT.topBadge}
           </span>
@@ -111,7 +114,7 @@ export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
           </a>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-6">
           {PERSONAL_INFO.socials.map((social) => (
             <a
               key={social.name}

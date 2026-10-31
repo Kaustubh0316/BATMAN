@@ -2,11 +2,12 @@
 
 import React, { useEffect, useRef, useState, useMemo, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
+import { SlideEyebrow } from "@/components/ui/slide-transition";
 
 interface ScrollTextRevealProps {
   /** The full text to reveal word by word. */
   text: string;
-  /** Words or phrases to highlight with the warm gold accent (#d9b97a) once revealed. */
+  /** Words or phrases to highlight once revealed. */
   highlightWords?: string[];
   /** Optional custom eyebrow label above the text. */
   eyebrow?: string;
@@ -18,16 +19,6 @@ interface ScrollTextRevealProps {
   sticky?: boolean;
 }
 
-/**
- * ScrollTextReveal
- * 
- * Cinematic, scroll-driven word-by-word reveal component.
- * - Words start in muted charcoal.
- * - Progress is accelerated and tuned so words begin revealing immediately as you scroll,
- *   reaching full illumination earlier in the scroll track.
- * - Smooth wave-like word transitions with warm gold highlights.
- * - Fully respects prefers-reduced-motion with instant 100% illumination fallback.
- */
 export function ScrollTextReveal({
   text,
   highlightWords = [],
@@ -83,23 +74,20 @@ export function ScrollTextReveal({
           const windowHeight = window.innerHeight;
 
           if (sticky) {
-            // Distance available to scroll while pinned
             const totalDistance = rect.height - windowHeight;
-            // Start revealing before the section is fully pinned (lead of 45% viewport)
             const currentScrolled = -rect.top + windowHeight * 0.45;
-            
-            // Raw ratio from 0 to 1 over the pinned track
-            const rawProgress = totalDistance > 0 ? currentScrolled / (totalDistance + windowHeight * 0.45) : 0;
-            
-            // Complete the reveal by ~45% of the track so the last line lights up well before unpinning
+            const rawProgress =
+              totalDistance > 0
+                ? currentScrolled / (totalDistance + windowHeight * 0.45)
+                : 0;
             const earlyProgress = Math.min(1, Math.max(0, rawProgress / 0.45));
             setProgress(earlyProgress);
           } else {
-            // Standard in-flow scroll entry: trigger 100px before bottom
             const startReveal = windowHeight * 0.95;
-            const endReveal = windowHeight * 0.40;
+            const endReveal = windowHeight * 0.4;
             const currentY = rect.top;
-            const rawProgress = (startReveal - currentY) / (startReveal - endReveal);
+            const rawProgress =
+              (startReveal - currentY) / (startReveal - endReveal);
             setProgress(Math.min(1, Math.max(0, rawProgress)));
           }
 
@@ -111,7 +99,7 @@ export function ScrollTextReveal({
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
-    handleScroll(); // Initial measure
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -134,88 +122,88 @@ export function ScrollTextReveal({
         )}
       >
         <div className="max-w-5xl mx-auto text-center w-full">
-          {/* Optional Eyebrow */}
           {eyebrow && (
-            <div className="inline-flex items-center gap-3 mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.02]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d9b97a] animate-pulse" />
-              <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
-                {eyebrow}
-              </span>
-            </div>
+            <SlideEyebrow>
+              <div className="inline-flex items-center gap-3 mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.02]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d9b97a] animate-pulse" />
+                <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#d9b97a] font-medium">
+                  {eyebrow}
+                </span>
+              </div>
+            </SlideEyebrow>
           )}
 
-          {/* Scrubbed Words Container */}
           <div
             ref={textRef}
             onPointerMove={handlePointerMove}
             onPointerLeave={() => setSpot((s) => ({ ...s, active: false }))}
             className="relative"
           >
-          {/* Spotlight overlay: bright copy of the text revealed only around the cursor */}
-          <p
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-0 pointer-events-none font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2] sm:leading-[1.18] tracking-[-0.02em] select-none text-white transition-opacity duration-300",
-              className
-            )}
-            style={{
-              opacity: spot.active ? 1 : 0,
-              WebkitMaskImage: `radial-gradient(circle 150px at ${spot.x}px ${spot.y}px, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)`,
-              maskImage: `radial-gradient(circle 150px at ${spot.x}px ${spot.y}px, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)`,
-            }}
-          >
-            {words.map((word, index) => (
-              <span key={`spot-${word}-${index}`} className="inline-block mr-[0.26em]">
-                {word}
-              </span>
-            ))}
-          </p>
-          <p
-            className={cn(
-              "font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2] sm:leading-[1.18] tracking-[-0.02em] select-none",
-              className
-            )}
-          >
-            {words.map((word, index) => {
-              // Word start and end threshold with soft wave overlap so text reveals smoothly and earlier
-              const totalWords = words.length;
-              const wordStart = index / (totalWords + 1);
-              const wordEnd = (index + 1.8) / (totalWords + 1);
-              
-              const wordProgress = Math.min(
-                1,
-                Math.max(0, (progress - wordStart) / (wordEnd - wordStart))
-              );
-
-              const cleanWord = word.toLowerCase().replace(/[^a-z0-9]/g, "");
-              const isHighlight = normalizedHighlights.includes(cleanWord);
-              const textAlpha = 0.12 + 0.88 * wordProgress;
-
-              return (
+            <p
+              aria-hidden="true"
+              className={cn(
+                "absolute inset-0 pointer-events-none font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2] sm:leading-[1.18] tracking-[-0.02em] select-none text-white transition-opacity duration-300",
+                className
+              )}
+              style={{
+                opacity: spot.active ? 1 : 0,
+                WebkitMaskImage: `radial-gradient(circle 150px at ${spot.x}px ${spot.y}px, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)`,
+                maskImage: `radial-gradient(circle 150px at ${spot.x}px ${spot.y}px, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)`,
+              }}
+            >
+              {words.map((word, index) => (
                 <span
-                  key={`${word}-${index}`}
-                  className="inline-block mr-[0.26em] transition-colors duration-150 will-change-[color,filter]"
-                  style={{
-                    color:
-                      wordProgress > 0.2
-                        ? isHighlight
-                          ? `rgba(226, 230, 238, ${textAlpha})`
-                          : `rgba(244, 244, 242, ${textAlpha})`
-                        : `rgba(255, 255, 255, ${textAlpha})`,
-                    filter:
-                      wordProgress > 0.3 && isHighlight
-                        ? `drop-shadow(0 0 16px rgba(226, 230, 238, ${wordProgress * 0.4}))`
-                        : "none",
-                  }}
+                  key={`spot-${word}-${index}`}
+                  className="inline-block mr-[0.26em]"
                 >
                   {word}
                 </span>
-              );
-            })}
-          </p>
+              ))}
+            </p>
+            <p
+              className={cn(
+                "font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.2] sm:leading-[1.18] tracking-[-0.02em] select-none",
+                className
+              )}
+            >
+              {words.map((word, index) => {
+                const totalWords = words.length;
+                const wordStart = index / (totalWords + 1);
+                const wordEnd = (index + 1.8) / (totalWords + 1);
+
+                const wordProgress = Math.min(
+                  1,
+                  Math.max(0, (progress - wordStart) / (wordEnd - wordStart))
+                );
+
+                const cleanWord = word.toLowerCase().replace(/[^a-z0-9]/g, "");
+                const isHighlight = normalizedHighlights.includes(cleanWord);
+                const textAlpha = 0.12 + 0.88 * wordProgress;
+
+                return (
+                  <span
+                    key={`${word}-${index}`}
+                    className="inline-block mr-[0.26em] transition-colors duration-150 will-change-[color,filter]"
+                    style={{
+                      color:
+                        wordProgress > 0.2
+                          ? isHighlight
+                            ? `rgba(226, 230, 238, ${textAlpha})`
+                            : `rgba(244, 244, 242, ${textAlpha})`
+                          : `rgba(255, 255, 255, ${textAlpha})`,
+                      filter:
+                        wordProgress > 0.3 && isHighlight
+                          ? `drop-shadow(0 0 16px rgba(226, 230, 238, ${wordProgress * 0.4}))`
+                          : "none",
+                    }}
+                  >
+                    {word}
+                  </span>
+                );
+              })}
+            </p>
           </div>
 
-          {/* Visual Scroll Progress Bar Indicator */}
           {sticky && (
             <div className="mt-12 flex flex-col items-center gap-3">
               <div className="w-40 sm:w-56 h-[2px] bg-white/10 rounded-full overflow-hidden">
